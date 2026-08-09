@@ -9,7 +9,9 @@ def test_journal_persists_task_state_and_evidence(tmp_path: Path):
     task = TaskSpec(id="t1", objective="build", target_path="src/x.py")
     db.upsert_task(task)
     db.transition("t1", TaskStatus.RUNNING)
-    db.record_evidence(EvidenceRecord(task_id="t1", gate="ast", status=GateStatus.PASS, detail="ok"))
+    db.record_evidence(
+        EvidenceRecord(task_id="t1", gate="ast", status=GateStatus.PASS, detail="ok")
+    )
     db.close()
 
     reopened = SQLiteJournal(tmp_path / "state.db")
