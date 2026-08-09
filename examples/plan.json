@@ -1,0 +1,13 @@
+{
+  "project_name": "example",
+  "tasks": [
+    {
+      "id": "TASK_001",
+      "objective": "Implement src/example.py according to the project's acceptance tests.",
+      "target_path": "src/example.py",
+      "dependencies": [],
+      "validation_command": ["python", "-m", "pytest", "-q", "-p", "no:cacheprovider"],
+      "max_attempts": 3
+    }
+  ]
+}
