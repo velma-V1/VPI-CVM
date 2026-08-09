@@ -2,11 +2,99 @@
 
 **Virtualized Project Intelligence — Cognitive Virtual Machine**
 
-VPI-CVM is an evidence-driven supervisory control plane for long-running autonomous project work. It treats language models as **proposal generators**, not authorities. A task is accepted only after deterministic gates produce machine evidence.
+VPI-CVM is a resident, evidence-driven cognitive production system. Its target is to **understand, create, and prove** complex project work while accumulating reusable capability from verified experience.
 
-> Status: **foundation implementation / v0.1**. The core loop is executable and tested; the full long-duration production system described in `docs/PLAN.md` is intentionally not claimed complete yet.
+Its durable intelligence is explicit and reproducible — project/world snapshots, evidence, provenance, failure memory, verified skills, capability history, human intent, and measured outcomes — rather than hidden inside any particular model, provider, or attention cache.
 
-## Core invariant
+> **Status:** executable foundation / Architecture v1 migration. The current Python control loop is real and tested. The resident intelligence, dual arena, adversarial verification, value ledger, skill compiler, and multi-domain capabilities in the target architecture are not claimed complete.
+
+## Governing doctrine
+
+```text
+UNDERSTAND
+  project/world intelligence
+  human intent/value
+  context compilation
+        |
+        v
+CREATE
+  deterministic skill / local model / frontier model
+  isolated tools and candidate execution
+        |
+        v
+PROVE
+  correctness
+  mechanical goal conformance
+  adversarial counterexample search
+  advisory quality assessment
+        |
+        v
+VERIFIED OUTCOME
+        |
+        +--> failure memory
+        +--> realized value
+        +--> capability history
+        +--> verified skills
+        +--> living arena
+        +--> production/world observations
+```
+
+A sealed/rotating arena remains outside that learning loop as independent promotion and anti-overfitting truth.
+
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the governing Architecture v1 and [`docs/PLAN.md`](docs/PLAN.md) for the implementation sequence.
+
+## Architecture laws
+
+- Models propose; machine evidence decides correctness.
+- Canonical knowledge is immutable/versioned; operational state may mutate transactionally without rewriting history.
+- The resident brain is explicit verified state, not persistent KV cache.
+- Living evaluation drives surveillance/practice; sealed and rotating holdouts govern promotion/generalization.
+- Correctness, goal conformance, and subjective quality are separate epistemic planes.
+- Adversarial models search for counterexamples; deterministic arbiters decide whether they are valid.
+- Local and frontier models are permanent replaceable tools selected empirically.
+- Realized value is measured before forecast value is optimized.
+- Repeated verified work may compile into deterministic skills only after replay and holdout validation.
+- SoftwareWorld is the first validated domain; cross-domain transfer is experimental until multiple real domains create evidence for it.
+- V31M4 and VPI-CVM are independent systems; any future bridge is optional interoperability only.
+
+## What exists now
+
+The repository currently provides an executable software-engineering foundation:
+
+- SQLite WAL task/evidence journal with explicit state transitions.
+- Validated acyclic task graph and dependency-aware supervisor.
+- Canonical filesystem containment.
+- Structured Ollama planner/generator using JSON Schema and Pydantic validation.
+- Hardened Docker execution boundary with deny-by-default network, read-only project validation, dropped capabilities, no-new-privileges, resource limits, non-root execution, and timeout cleanup.
+- Python AST gate and sandbox-command evidence gate.
+- Evidence-based acceptance policy.
+- Bounded repair loop that feeds deterministic failures back to candidate generation.
+- NVIDIA telemetry/thermal policy primitive.
+- CLI for planning and resuming persisted work.
+- Unit/regression tests and GitHub Actions CI.
+
+These are foundation components, not a claim that Architecture v1 is already implemented.
+
+## Architecture v1 build direction
+
+The implementation plan now prioritizes:
+
+1. minimal stable contracts, immutable SoftwareWorld snapshots, and a dual arena;
+2. an independent measured Context Compiler;
+3. a local model plus frontier challenger under one contract;
+4. adaptive correctness verification plus adversarial counterexample search;
+5. a structured Failure Compiler;
+6. empirical capability routing plus a Realized Value Ledger;
+7. a Verified Skill Compiler plus Living Benchmark generation;
+8. human intent/value state, mechanical goal conformance, and calibrated advisory quality assessment;
+9. one complete SoftwareWorld lifecycle from intent through publish and observation;
+10. a second domain followed by evidence-backed cross-domain transfer research.
+
+Nothing is promoted because it sounds advanced. Mechanisms are retained, rejected, or left inconclusive based on reproducible arena evidence.
+
+## Current core loop
+
+The existing implementation currently follows this narrower loop:
 
 ```text
 GOAL
@@ -24,46 +112,7 @@ GOAL
 
 The system deliberately does **not** use an LLM to grade its own output.
 
-## What exists now
-
-- SQLite WAL task/evidence journal with explicit state transitions.
-- Validated acyclic task graph and dependency-aware supervisor.
-- Canonical filesystem containment; no basename flattening and no sibling-prefix escape.
-- Structured Ollama planner/generator using JSON Schema and Pydantic validation.
-- Docker execution boundary with:
-  - no network by default
-  - read-only root filesystem
-  - read-only project bind mount during validation
-  - all Linux capabilities dropped
-  - `no-new-privileges`
-  - PID, RAM, CPU and wall-clock limits
-  - non-root container user
-  - timeout kill/remove cleanup
-- Python AST gate before sandbox execution.
-- Evidence-based acceptance policy.
-- Bounded repair loop that feeds deterministic failure evidence back to the generator.
-- NVIDIA telemetry probe and real temperature policy primitive.
-- CLI for planning and running persisted plans.
-- Unit/regression test suite and GitHub Actions CI.
-
-## What is intentionally not faked
-
-The following are **planned**, not silently represented as complete:
-
-- Temporal-backed multi-day durable orchestration.
-- OpenHands agent-server backend.
-- independent generated acceptance-test author/verifier split.
-- Ruff/Mypy/Bandit/Semgrep policy gates as first-class gate plugins.
-- integration/fuzz/property-testing matrix.
-- Git worktree checkpoint/rollback backend.
-- artifact provenance hashes and signed evidence manifests.
-- network allow-list proxy for tasks that genuinely require internet access.
-- gVisor / microVM isolation backend for stronger hostile-code boundaries.
-- dashboard and operator approval queue.
-
-See [`docs/PLAN.md`](docs/PLAN.md).
-
-## Quick start
+## Quick start for the current foundation
 
 ### Requirements
 
@@ -81,16 +130,12 @@ docker build -t vpi-cvm-sandbox:py313 sandbox/
 
 ### Create a plan
 
-Use any local Ollama model that is sufficiently reliable at structured coding tasks:
-
 ```bash
 vpi-cvm plan \
   --goal "Build a tested Python service with a health endpoint" \
   --model qwen3:8b \
   --output vpi-plan.json
 ```
-
-Inspect the plan before execution. A plan is data, not an implicit permission grant.
 
 ### Execute/resume
 
@@ -104,24 +149,14 @@ vpi-cvm run \
 
 Re-running the same command resumes from persisted task state; tasks already in `PASSED` are not regenerated.
 
-## Why not just build another agent framework?
-
-VPI-CVM is deliberately narrower. Mature systems already solve large portions of agent execution and durable workflow orchestration. The long-term architecture therefore uses adapters rather than reimplementing everything:
-
-- **OpenHands**: candidate agent/runtime backend.
-- **Temporal**: production durable workflow backend.
-- **Docker now; gVisor/microVM later**: execution isolation backends.
-
-VPI-CVM owns the **project-level truth model**: task DAG, policy, evidence, acceptance, provenance, repair budget, checkpoints, and operator escalation.
-
-## Repository map
+## Repository map — current implementation
 
 ```text
 src/vpi_cvm/
   cli.py          operator entrypoint
-  models.py       validated domain schemas
+  models.py       validated schemas
   planning.py     DAG validation/readiness
-  store.py        SQLite WAL state/evidence journal
+  store.py        SQLite WAL task/evidence journal
   workspace.py    canonical path containment
   ollama.py       structured planner/generator adapter
   sandbox.py      hardened Docker execution backend
@@ -133,7 +168,7 @@ src/vpi_cvm/
 tests/            behavioral/regression tests
 sandbox/          disposable validation image
 examples/         sample plan data
-docs/             architecture, threat model, roadmap, ADRs
+docs/             governing architecture, plan, security, ADRs, research history
 ```
 
 ## Development
@@ -146,4 +181,8 @@ ruff check src tests
 
 ## Security position
 
-Docker is a meaningful process/filesystem/resource boundary for local single-user execution, but it shares the host kernel and is not treated as a perfect hostile multi-tenant hypervisor. VPI-CVM's threat model and escalation path are documented in [`docs/SECURITY.md`](docs/SECURITY.md).
+Docker is a meaningful process/filesystem/resource boundary for local single-user execution, but it shares the host kernel and is not treated as a perfect hostile multi-tenant hypervisor. Stronger isolation, worktree candidate separation, task-scoped credentials, and durable workflow recovery remain target work in [`docs/PLAN.md`](docs/PLAN.md).
+
+## Historical architecture notes
+
+`docs/HYBRID_DOCTRINE.md`, `docs/ADAPTIVE_INSTITUTION.md`, and `docs/WORLD_LEAD_STACK.md` are retained only as architecture history. They are superseded wherever they conflict with Architecture v1.
