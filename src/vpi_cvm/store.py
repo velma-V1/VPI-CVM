@@ -7,8 +7,17 @@ from pathlib import Path
 from .models import EvidenceRecord, GateStatus, TaskSpec, TaskStatus
 
 _ALLOWED_TRANSITIONS: dict[TaskStatus, set[TaskStatus]] = {
-    TaskStatus.PENDING: {TaskStatus.RUNNING, TaskStatus.BLOCKED, TaskStatus.FAILED, TaskStatus.PASSED},
-    TaskStatus.RUNNING: {TaskStatus.BLOCKED, TaskStatus.PASSED, TaskStatus.FAILED},
+    TaskStatus.PENDING: {
+        TaskStatus.RUNNING,
+        TaskStatus.BLOCKED,
+        TaskStatus.FAILED,
+        TaskStatus.PASSED,
+    },
+    TaskStatus.RUNNING: {
+        TaskStatus.BLOCKED,
+        TaskStatus.PASSED,
+        TaskStatus.FAILED,
+    },
     TaskStatus.BLOCKED: {TaskStatus.RUNNING, TaskStatus.FAILED},
     TaskStatus.FAILED: {TaskStatus.RUNNING},
     TaskStatus.PASSED: set(),
@@ -58,7 +67,10 @@ class SQLiteJournal:
                 )
                 """
             )
-            self.conn.execute("CREATE INDEX IF NOT EXISTS idx_evidence_task ON evidence(task_id, id)")
+            self.conn.execute(
+                "CREATE INDEX IF NOT EXISTS idx_evidence_task "
+                "ON evidence(task_id, id)"
+            )
 
     def close(self) -> None:
         self.conn.close()
@@ -95,7 +107,10 @@ class SQLiteJournal:
             )
 
     def get_status(self, task_id: str) -> TaskStatus:
-        row = self.conn.execute("SELECT status FROM tasks WHERE id = ?", (task_id,)).fetchone()
+        row = self.conn.execute(
+            "SELECT status FROM tasks WHERE id = ?",
+            (task_id,),
+        ).fetchone()
         if row is None:
             raise KeyError(task_id)
         return TaskStatus(row["status"])
@@ -119,7 +134,8 @@ class SQLiteJournal:
     def increment_attempts(self, task_id: str) -> None:
         with self.conn:
             self.conn.execute(
-                "UPDATE tasks SET attempts = attempts + 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+                "UPDATE tasks SET attempts = attempts + 1, "
+                "updated_at = CURRENT_TIMESTAMP WHERE id = ?",
                 (task_id,),
             )
 
@@ -132,7 +148,8 @@ class SQLiteJournal:
 
     def list_evidence(self, task_id: str) -> list[EvidenceRecord]:
         rows = self.conn.execute(
-            "SELECT task_id, gate, status, detail FROM evidence WHERE task_id = ? ORDER BY id",
+            "SELECT task_id, gate, status, detail FROM evidence "
+            "WHERE task_id = ? ORDER BY id",
             (task_id,),
         ).fetchall()
         return [
