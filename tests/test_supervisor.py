@@ -1,8 +1,8 @@
 from pathlib import Path
 
 from vpi_cvm.models import TaskSpec, TaskStatus
-from vpi_cvm.supervisor import Supervisor
 from vpi_cvm.store import SQLiteJournal
+from vpi_cvm.supervisor import Supervisor
 
 
 class RecordingKernel:
