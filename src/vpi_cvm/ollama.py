@@ -14,13 +14,27 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class JsonTransport(Protocol):
-    def post_json(self, url: str, payload: dict[str, Any], timeout: int) -> dict[str, Any]: ...
+    def post_json(
+        self,
+        url: str,
+        payload: dict[str, Any],
+        timeout: int,
+    ) -> dict[str, Any]: ...
 
 
 class UrllibJsonTransport:
-    def post_json(self, url: str, payload: dict[str, Any], timeout: int) -> dict[str, Any]:
+    def post_json(
+        self,
+        url: str,
+        payload: dict[str, Any],
+        timeout: int,
+    ) -> dict[str, Any]:
         body = json.dumps(payload).encode("utf-8")
-        request = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
+        request = urllib.request.Request(
+            url,
+            data=body,
+            headers={"Content-Type": "application/json"},
+        )
         with urllib.request.urlopen(request, timeout=timeout) as response:
             return json.loads(response.read().decode("utf-8"))
 
@@ -48,7 +62,9 @@ class OllamaStructuredClient:
         }
         assert self.transport is not None
         response = self.transport.post_json(
-            f"{self.base_url.rstrip('/')}/api/generate", payload, self.timeout_seconds
+            f"{self.base_url.rstrip('/')}/api/generate",
+            payload,
+            self.timeout_seconds,
         )
         raw = response.get("response")
         if not isinstance(raw, str):
@@ -64,14 +80,19 @@ class OllamaPlanner:
         base_url: str = "http://localhost:11434",
         transport: JsonTransport | None = None,
     ):
-        self.client = OllamaStructuredClient(model=model, base_url=base_url, transport=transport)
+        self.client = OllamaStructuredClient(
+            model=model,
+            base_url=base_url,
+            transport=transport,
+        )
 
     def plan(self, goal: str) -> ProjectPlan:
         plan = self.client.generate(
             system=(
-                "You are VPI-CVM's planner. Decompose the goal into atomic implementation tasks. "
-                "Each task targets exactly one artifact path, declares dependencies by task id, and "
-                "includes a deterministic validation command. Return only schema-valid JSON."
+                "You are VPI-CVM's planner. Decompose the goal into atomic "
+                "implementation tasks. Each task targets exactly one artifact path, "
+                "declares dependencies by task id, and includes a deterministic "
+                "validation command. Return only schema-valid JSON."
             ),
             prompt=f"Project goal:\n{goal}",
             schema=ProjectPlan,
@@ -88,21 +109,34 @@ class OllamaGenerator:
         base_url: str = "http://localhost:11434",
         transport: JsonTransport | None = None,
     ):
-        self.client = OllamaStructuredClient(model=model, base_url=base_url, transport=transport)
+        self.client = OllamaStructuredClient(
+            model=model,
+            base_url=base_url,
+            transport=transport,
+        )
 
-    def generate(self, task: TaskSpec, prior_evidence: list[EvidenceRecord]) -> CandidateArtifact:
+    def generate(
+        self,
+        task: TaskSpec,
+        prior_evidence: list[EvidenceRecord],
+    ) -> CandidateArtifact:
         evidence_text = "\n".join(
-            f"- {item.gate}: {item.status.value}: {item.detail}" for item in prior_evidence[-12:]
+            f"- {item.gate}: {item.status.value}: {item.detail}"
+            for item in prior_evidence[-12:]
         ) or "- none"
         return self.client.generate(
             system=(
-                "You are VPI-CVM's artifact generator. Produce the complete contents for exactly the "
-                "requested target_path. Treat deterministic evidence from prior attempts as ground truth. "
-                "Do not change the target path. Do not emit markdown fences."
+                "You are VPI-CVM's artifact generator. Produce the complete contents "
+                "for exactly the requested target_path. Treat deterministic evidence "
+                "from prior attempts as ground truth. Do not change the target path. "
+                "Do not emit markdown fences."
             ),
             prompt=(
-                f"Task id: {task.id}\nObjective: {task.objective}\nTarget path: {task.target_path}\n"
-                f"Validation command: {task.validation_command}\nPrior evidence:\n{evidence_text}"
+                f"Task id: {task.id}\n"
+                f"Objective: {task.objective}\n"
+                f"Target path: {task.target_path}\n"
+                f"Validation command: {task.validation_command}\n"
+                f"Prior evidence:\n{evidence_text}"
             ),
             schema=CandidateArtifact,
         )
