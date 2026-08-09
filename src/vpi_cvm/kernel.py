@@ -3,7 +3,14 @@ from __future__ import annotations
 from pathlib import Path
 
 from .evidence import AcceptancePolicy, AstGate
-from .models import CandidateGenerator, EvidenceRecord, GateStatus, SandboxRunner, TaskSpec, TaskStatus
+from .models import (
+    CandidateGenerator,
+    EvidenceRecord,
+    GateStatus,
+    SandboxRunner,
+    TaskSpec,
+    TaskStatus,
+)
 from .sandbox import SandboxSpec
 from .store import SQLiteJournal
 from .workspace import Workspace
@@ -52,7 +59,10 @@ class CognitiveKernel:
                         task_id=task.id,
                         gate="target_path",
                         status=GateStatus.FAIL,
-                        detail=f"candidate targeted {candidate.target_path}; expected {task.target_path}",
+                        detail=(
+                            f"candidate targeted {candidate.target_path}; "
+                            f"expected {task.target_path}"
+                        ),
                     )
                 )
                 continue
@@ -70,13 +80,24 @@ class CognitiveKernel:
                     command=task.validation_command,
                 )
             )
-            test_status = GateStatus.PASS if sandbox_result.exit_code == 0 and not sandbox_result.timed_out else GateStatus.FAIL
+            test_status = (
+                GateStatus.PASS
+                if sandbox_result.exit_code == 0 and not sandbox_result.timed_out
+                else GateStatus.FAIL
+            )
             detail = (
                 f"exit={sandbox_result.exit_code} timeout={sandbox_result.timed_out} "
-                f"duration_ms={sandbox_result.duration_ms}\nstdout:\n{sandbox_result.stdout}\nstderr:\n{sandbox_result.stderr}"
+                f"duration_ms={sandbox_result.duration_ms}\n"
+                f"stdout:\n{sandbox_result.stdout}\n"
+                f"stderr:\n{sandbox_result.stderr}"
             )
             self.store.record_evidence(
-                EvidenceRecord(task_id=task.id, gate="tests", status=test_status, detail=detail)
+                EvidenceRecord(
+                    task_id=task.id,
+                    gate="tests",
+                    status=test_status,
+                    detail=detail,
+                )
             )
 
             if self.policy.accept(self.store.list_evidence(task.id)):
