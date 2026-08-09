@@ -22,7 +22,10 @@ def _build_parser() -> argparse.ArgumentParser:
     plan.add_argument("--output", default="vpi-plan.json")
     plan.add_argument("--ollama-url", default="http://localhost:11434")
 
-    run = sub.add_parser("run", help="Execute a persisted plan through deterministic evidence gates")
+    run = sub.add_parser(
+        "run",
+        help="Execute a persisted plan through deterministic evidence gates",
+    )
     run.add_argument("--plan", required=True)
     run.add_argument("--model", required=True)
     run.add_argument("--workspace", default="vpi-workspace")
@@ -55,7 +58,12 @@ def main(argv: list[str] | None = None) -> int:
             sandbox_image=args.image,
         )
         statuses = Supervisor(store=store, kernel=kernel).run(plan.tasks)
-        print(json.dumps({task_id: status.value for task_id, status in statuses.items()}, indent=2))
+        print(
+            json.dumps(
+                {task_id: status.value for task_id, status in statuses.items()},
+                indent=2,
+            )
+        )
         return 0 if all(status.value == "PASSED" for status in statuses.values()) else 2
     finally:
         store.close()
