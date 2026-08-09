@@ -4,9 +4,19 @@
 
 VPI-CVM is a resident, evidence-driven cognitive production system. Its target is to **understand, create, and prove** complex project work while accumulating reusable capability from verified experience.
 
-Its durable intelligence is explicit and reproducible — project/world snapshots, evidence, provenance, failure memory, verified skills, capability history, human intent, and measured outcomes — rather than hidden inside any particular model, provider, or attention cache.
+Its durable intelligence is explicit and reproducible — project/world snapshots, evidence, provenance, decision history, failure memory, verified skills, capability/known-unknown history, human intent, and measured outcomes — rather than hidden inside any particular model, provider, or attention cache.
 
-> **Status:** executable foundation / Architecture v1 migration. The current Python control loop is real and tested. The resident intelligence, dual arena, adversarial verification, value ledger, skill compiler, and multi-domain capabilities in the target architecture are not claimed complete.
+> **Status:** executable foundation / frozen Architecture v1 migration. Architecture v1 is the best current starting hypothesis, not a claim of optimality or completion. The current Python control loop is real and tested; the full Operational Control Plane, resident intelligence, dual arena, adversarial fabric, value ledger, skill compiler, and Discovery Plane are not claimed implemented.
+
+## Governing documents
+
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — frozen Architecture v1.
+- [`docs/OPERATIONAL_CONTROL_PLANE.md`](docs/OPERATIONAL_CONTROL_PLANE.md) — governing Phase 0 survival/control specification.
+- [`docs/PLAN.md`](docs/PLAN.md) — governing implementation sequence.
+- [`docs/SECURITY.md`](docs/SECURITY.md) — threat model.
+- [`docs/DISCOVERY_PLANE.md`](docs/DISCOVERY_PLANE.md) — post-v1 metacognitive/self-research roadmap.
+
+Older doctrine documents are retained as architecture history only and are superseded wherever they conflict with the governing documents above.
 
 ## Governing doctrine
 
@@ -31,17 +41,15 @@ PROVE
         v
 VERIFIED OUTCOME
         |
-        +--> failure memory
+        +--> decision + failure memory
         +--> realized value
-        +--> capability history
+        +--> capability / known-unknown history
         +--> verified skills
         +--> living arena
         +--> production/world observations
 ```
 
 A sealed/rotating arena remains outside that learning loop as independent promotion and anti-overfitting truth.
-
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the governing Architecture v1 and [`docs/PLAN.md`](docs/PLAN.md) for the implementation sequence.
 
 ## Architecture laws
 
@@ -50,11 +58,15 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the governing Architectur
 - The resident brain is explicit verified state, not persistent KV cache.
 - Living evaluation drives surveillance/practice; sealed and rotating holdouts govern promotion/generalization.
 - Correctness, goal conformance, and subjective quality are separate epistemic planes.
-- Adversarial models search for counterexamples; deterministic arbiters decide whether they are valid.
+- Adversarial models search for counterexamples; deterministic arbiters decide whether they are valid; adversaries themselves are calibrated.
 - Local and frontier models are permanent replaceable tools selected empirically.
 - Realized value is measured before forecast value is optimized.
-- Repeated verified work may compile into deterministic skills only after replay and holdout validation.
+- Capability includes strengths, known failure regions, contradictory evidence, and unknowns.
+- Consequential decisions leave structured provenance that `explain` can query.
+- Repeated verified work may compile into deterministic skills only after replay/holdout validation, and skills can be quarantined/retired when they degrade.
+- Operational survival — security, recovery, termination, resource scheduling, operator control, storage health, drift/surprise handling — is a prerequisite for autonomy claims.
 - SoftwareWorld is the first validated domain; cross-domain transfer is experimental until multiple real domains create evidence for it.
+- Architectural self-modification is post-v1 controlled research through isolated shadow systems, not direct self-rewrite.
 - V31M4 and VPI-CVM are independent systems; any future bridge is optional interoperability only.
 
 ## What exists now
@@ -75,22 +87,52 @@ The repository currently provides an executable software-engineering foundation:
 
 These are foundation components, not a claim that Architecture v1 is already implemented.
 
-## Architecture v1 build direction
+## Build direction
 
-The implementation plan now prioritizes:
+### Phase 0 — Operational Control Plane
+
+Before intelligence-heavy work, establish the contracts for:
+
+- trust-aware context and security;
+- idempotency/recovery/circuit breakers;
+- typed operator control;
+- day-zero bootstrap;
+- termination/satisficing;
+- CPU/RAM/disk/GPU resource scheduling;
+- storage/retention/query-health policy;
+- model/runtime fingerprinting, drift, and surprise detection;
+- known-unknown/negative competence handling;
+- structured decision provenance/explanation.
+
+### Phases 1–10 — Architecture v1
 
 1. minimal stable contracts, immutable SoftwareWorld snapshots, and a dual arena;
-2. an independent measured Context Compiler;
-3. a local model plus frontier challenger under one contract;
-4. adaptive correctness verification plus adversarial counterexample search;
-5. a structured Failure Compiler;
-6. empirical capability routing plus a Realized Value Ledger;
-7. a Verified Skill Compiler plus Living Benchmark generation;
-8. human intent/value state, mechanical goal conformance, and calibrated advisory quality assessment;
-9. one complete SoftwareWorld lifecycle from intent through publish and observation;
+2. measured Context Compiler plus empirical competence/known-unknown model;
+3. local + frontier cognition under one drift-aware contract;
+4. correctness verification plus calibrated adversarial counterexample search;
+5. structured Failure Compiler;
+6. empirical routing plus a Realized Value Ledger;
+7. Verified Skill Compiler with retirement/revalidation plus Living Benchmark generation;
+8. human intent/value state, mechanical goal conformance, and evidence-calibrated advisory quality;
+9. one complete SoftwareWorld lifecycle from intent through publish/observe with bounded termination and rollback;
 10. a second domain followed by evidence-backed cross-domain transfer research.
 
-Nothing is promoted because it sounds advanced. Mechanisms are retained, rejected, or left inconclusive based on reproducible arena evidence.
+### Phase 11+ — Metacognitive Discovery Plane
+
+Only after VPI-CVM has mature reproducible measurements:
+
+- model VPI-CVM itself as a system;
+- represent architectural uncertainty;
+- mine weaknesses and surprises;
+- generate falsifiable architectural hypotheses;
+- ingest open-world research pressure;
+- create isolated system worktrees/shadow architectures;
+- run controlled A/B/ablation experiments;
+- retain scientific memory including failed ideas;
+- allocate production vs self-research resources through a meta-governor;
+- promote/rollback architectural challengers safely.
+
+Nothing is promoted because it sounds advanced. Mechanisms are retained, rejected, or left inconclusive based on reproducible evidence.
 
 ## Current core loop
 
@@ -168,7 +210,7 @@ src/vpi_cvm/
 tests/            behavioral/regression tests
 sandbox/          disposable validation image
 examples/         sample plan data
-docs/             governing architecture, plan, security, ADRs, research history
+docs/             governing architecture, operational control, discovery roadmap, security, ADRs, history
 ```
 
 ## Development
@@ -181,8 +223,8 @@ ruff check src tests
 
 ## Security position
 
-Docker is a meaningful process/filesystem/resource boundary for local single-user execution, but it shares the host kernel and is not treated as a perfect hostile multi-tenant hypervisor. Stronger isolation, worktree candidate separation, task-scoped credentials, and durable workflow recovery remain target work in [`docs/PLAN.md`](docs/PLAN.md).
+Docker is a meaningful process/filesystem/resource boundary for local single-user execution, but it shares the host kernel and is not treated as a perfect hostile multi-tenant hypervisor. Prompt/context injection, training/skill poisoning, dependency/plugin supply chain, resource-exhausting artifacts, arena privacy/contamination, stronger isolation, task-scoped credentials, and durable recovery are explicitly tracked in [`docs/SECURITY.md`](docs/SECURITY.md) and [`docs/OPERATIONAL_CONTROL_PLANE.md`](docs/OPERATIONAL_CONTROL_PLANE.md).
 
 ## Historical architecture notes
 
-`docs/HYBRID_DOCTRINE.md`, `docs/ADAPTIVE_INSTITUTION.md`, and `docs/WORLD_LEAD_STACK.md` are retained only as architecture history. They are superseded wherever they conflict with Architecture v1.
+`docs/HYBRID_DOCTRINE.md`, `docs/ADAPTIVE_INSTITUTION.md`, and `docs/WORLD_LEAD_STACK.md` are retained only as architecture history. They are superseded wherever they conflict with Architecture v1 or the governing companion specs.
