@@ -21,7 +21,12 @@ class AstGate:
                 status=GateStatus.FAIL,
                 detail=f"SyntaxError at {location}: {exc.msg}",
             )
-        return EvidenceRecord(task_id=task_id, gate=self.name, status=GateStatus.PASS, detail="AST parse passed")
+        return EvidenceRecord(
+            task_id=task_id,
+            gate=self.name,
+            status=GateStatus.PASS,
+            detail="AST parse passed",
+        )
 
 
 @dataclass(frozen=True)
