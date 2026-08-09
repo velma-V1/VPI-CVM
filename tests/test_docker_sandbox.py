@@ -4,7 +4,11 @@ from vpi_cvm.sandbox import DockerSandbox, SandboxSpec
 
 
 def test_docker_command_has_mandatory_isolation_controls(tmp_path: Path):
-    spec = SandboxSpec(workspace=tmp_path, image="python:3.13-slim", command=["pytest", "-q"])
+    spec = SandboxSpec(
+        workspace=tmp_path,
+        image="python:3.13-slim",
+        command=["pytest", "-q"],
+    )
     cmd = DockerSandbox().build_command(spec)
     joined = " ".join(cmd)
     assert "--network none" in joined
@@ -19,13 +23,21 @@ def test_docker_command_has_mandatory_isolation_controls(tmp_path: Path):
 
 
 def test_docker_command_never_uses_privileged(tmp_path: Path):
-    spec = SandboxSpec(workspace=tmp_path, image="python:3.13-slim", command=["python", "x.py"])
+    spec = SandboxSpec(
+        workspace=tmp_path,
+        image="python:3.13-slim",
+        command=["python", "x.py"],
+    )
     cmd = DockerSandbox().build_command(spec)
     assert "--privileged" not in cmd
 
 
 def test_workspace_is_mounted_read_only(tmp_path: Path):
-    spec = SandboxSpec(workspace=tmp_path, image="python:3.13-slim", command=["python", "x.py"])
+    spec = SandboxSpec(
+        workspace=tmp_path,
+        image="python:3.13-slim",
+        command=["python", "x.py"],
+    )
     cmd = DockerSandbox().build_command(spec, container_name="vpi-test")
     mount = cmd[cmd.index("--mount") + 1]
     assert mount.endswith(",ro")
@@ -33,6 +45,7 @@ def test_workspace_is_mounted_read_only(tmp_path: Path):
 
 def test_timeout_kills_and_removes_container(tmp_path: Path, monkeypatch):
     import subprocess
+
     import vpi_cvm.sandbox as sandbox_module
 
     calls = []
@@ -40,11 +53,21 @@ def test_timeout_kills_and_removes_container(tmp_path: Path, monkeypatch):
     def fake_run(cmd, **kwargs):
         calls.append(cmd)
         if len(calls) == 1:
-            raise subprocess.TimeoutExpired(cmd=cmd, timeout=1, output="", stderr="hung")
+            raise subprocess.TimeoutExpired(
+                cmd=cmd,
+                timeout=1,
+                output="",
+                stderr="hung",
+            )
         return subprocess.CompletedProcess(cmd, 0, "", "")
 
     monkeypatch.setattr(sandbox_module.subprocess, "run", fake_run)
-    spec = SandboxSpec(workspace=tmp_path, image="python:3.13-slim", command=["python", "x.py"], timeout_seconds=1)
+    spec = SandboxSpec(
+        workspace=tmp_path,
+        image="python:3.13-slim",
+        command=["python", "x.py"],
+        timeout_seconds=1,
+    )
     result = DockerSandbox().run(spec)
 
     name = calls[0][calls[0].index("--name") + 1]
