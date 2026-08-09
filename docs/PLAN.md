@@ -1,294 +1,372 @@
 # VPI-CVM Implementation Plan
 
-This is the governing build plan. A checked item means the capability exists in the repository; it does **not** imply the entire system is production complete.
+Status: **governing build plan for Architecture v1**.
 
-The target is now explicitly hybrid: VPI-CVM keeps the industrial execution/verification chassis while adding compounding project intelligence, cache invalidation, failure compilation, and cost-aware model escalation. The system must improve from repeated verified work without becoming dependent on stale neural state or uncontrolled cloud spend.
+A checked item means the capability exists in the repository. It does **not** imply the target system is complete. The current Python code is an executable foundation; Architecture v1 adds a resident, self-measuring, adversarially tested intelligence layer without falsely claiming unfinished capabilities.
 
-## Phase 0 — truth boundaries and repository foundation
+## Development laws
 
-- [x] Define model as proposal generator, not verifier.
-- [x] Define deterministic evidence as acceptance authority.
-- [x] Establish validated domain schemas.
-- [x] Establish test-first CI foundation.
-- [x] Document security posture and non-goals.
-- [ ] Define epistemic labels for MEASURED / DERIVED / INFERRED / HEURISTIC / UNKNOWN claims.
-- [ ] Reject unsupported calibrated probabilities and benchmark claims at output boundaries.
+1. **Arena first.** Substantial mechanisms require a baseline, challenger measurement, and explicit retain/reject/inconclusive decision.
+2. **Canonical knowledge is immutable/versioned.** New source/project intelligence produces new snapshots and hashes. Ephemeral operational state may mutate transactionally but never rewrites historical truth.
+3. **Three epistemic planes.** Correctness is hard where mechanically defensible; goal conformance is hard only for mechanical predicates; subjective quality remains advisory until calibrated.
+4. **Explicit state is the resident brain.** KV/prefix caches may accelerate inference but are never authoritative memory.
+5. **Models are replaceable resources.** Local and frontier models remain permanent eligible lanes selected by evidence and value, not ideology.
+6. **Living evaluation does not judge itself.** Synthetic/living tasks drive surveillance/practice; sealed and rotating holdouts govern promotion/generalization.
+7. **Adversaries discover counterexamples; deterministic arbiters decide whether they break a candidate.**
+8. **Measure realized value before optimizing forecast value.** Human time, failure recurrence, reuse, cost, compute, and latency all matter.
+9. **No arbitrary architectural numerology.** Fixed task counts, p-values, token savings, or promotion thresholds are experiment parameters, not universal laws.
+10. **Cross-domain abstractions are discovered, not invented.** SoftwareWorld is first; Meta-World transfer waits for multiple mature domains.
+11. **V31M4 is independent.** Any bridge is optional interoperability and cannot become a VPI-CVM kernel dependency.
 
-**Exit condition:** architecture can no longer silently substitute LLM opinion, stale memory, or unsupported probability for verification.
+---
 
-## Phase 1 — durable project truth and provenance
+## Phase 0 — preserve and harden the executable foundation
 
-- [x] SQLite WAL journal.
-- [x] explicit task state machine.
-- [x] evidence persistence.
-- [x] dependency DAG validation.
-- [x] cycle/unknown-dependency rejection.
-- [x] resumable ready-task dispatch.
-- [ ] event/outbox table for external observers.
-- [ ] schema migrations/version table.
-- [ ] evidence/artifact content hashes.
-- [ ] immutable accepted-base commit recorded for every task.
-- [ ] append-only decision chronicle.
-- [ ] project-state lineage across accepted/rejected branches.
-- [ ] evidence provenance graph linking task -> context -> candidate -> gate -> result -> commit.
+Existing foundation:
 
-**Exit condition:** restart cannot lose accepted task state, passed tasks cannot be regenerated accidentally, and every accepted output can be traced to its inputs and evidence.
-
-## Phase 2 — safe workspace and execution boundary
-
-- [x] canonical path containment.
-- [x] nested target paths preserved.
-- [x] Docker execution backend.
-- [x] read-only project mount during validation.
-- [x] network disabled by default.
-- [x] capabilities dropped / no-new-privileges.
-- [x] PID/RAM/CPU/wall-time limits.
-- [x] timeout kill/remove cleanup.
-- [x] no in-process execution of generated code.
-- [ ] SWE-ReX execution adapter.
-- [ ] disk quota.
-- [ ] VPI-CVM-owned seccomp profile.
-- [ ] gVisor/runsc backend.
-- [ ] Firecracker/microVM high-assurance backend.
-- [ ] task-scoped network allowlists.
-- [ ] short-lived task-scoped secret injection.
-
-**Exit condition:** generated code cannot execute inside the controller, mutate canonical project state during validation, escape its resource envelope, or receive ambient host credentials.
-
-## Phase 3 — Project Intelligence Fabric
-
-Build exact code intelligence before generic RAG.
-
-- [ ] Tree-sitter incremental syntax ingestion.
-- [ ] SCIP ingestion for definitions/references/implementations.
-- [ ] language-native compiler/type metadata adapters where stronger than generic parsing.
-- [ ] import/package/build-target graph.
-- [ ] caller/callee graph.
-- [ ] test-to-symbol mapping.
-- [ ] dynamic coverage-to-symbol mapping.
-- [ ] Git blame/history/recent-diff relationships.
-- [ ] failure-history links to symbols and commits.
-- [ ] on-demand CodeQL/data-flow relationships.
-- [ ] compact per-symbol summaries with source provenance.
-- [ ] content-addressed project graph snapshots.
-- [ ] incremental invalidation when source/dependencies/tests/configuration change.
-
-**Exit condition:** VPI-CVM can answer which exact symbols, tests, dependencies, recent changes, and historical failures are relevant to a task without asking a model to reconstruct repository relationships from prose.
-
-## Phase 4 — Context Compiler and cache hierarchy
-
-- [ ] bounded task context contract.
-- [ ] exact source ranges/signatures/callers/callees/tests included with provenance.
-- [ ] token/context budget enforcement.
-- [ ] semantic retrieval limited to prose/docs or recall expansion; never authoritative for code relations.
-- [ ] context cache keyed by repository/content hash + task contract + toolchain version.
-- [ ] model prefix-cache integration where runtime supports it.
-- [ ] summary cache invalidation by dependency radius.
-- [ ] cognitive result cache for repeated verified task patterns.
-- [ ] cache entries carry verification-policy and model/runtime fingerprints.
-- [ ] stale cache rejection when any fingerprint changes.
-
-**Exit condition:** repeated work reuses validated project intelligence cheaply, while changed code or policies cannot silently consume stale summaries or neural state.
-
-## Phase 5 — deterministic workflow brain and failure compiler
-
-Workflow topology is code, not model discretion.
-
-- [ ] bugfix FSM: reproduce -> localize -> hypothesize -> patch -> verify -> adversarial verify -> checkpoint.
-- [ ] feature FSM: contract -> impact analysis -> failing test -> implementation -> integration verify -> adversarial verify -> checkpoint.
-- [ ] refactor FSM: baseline -> dependency map -> transform -> equivalence -> performance gate -> checkpoint.
-- [ ] security FSM: boundary map -> reproduce -> patch -> exploit regression -> security/data-flow/dependency gates -> checkpoint.
-- [ ] migration FSM with rollback and data-integrity gates.
-- [ ] bounded backtracking by failure class.
-- [ ] decomposition trigger after repeated localization/repair failure.
-- [ ] structured failure compiler that converts raw logs into minimal counterexamples.
-- [ ] failure signatures cached and linked to successful repair strategies.
-
-**Exit condition:** models populate typed leaf nodes but cannot skip mandatory stages; repeated failures become structured reusable knowledge instead of repeated prompt text.
-
-## Phase 6 — model portfolio, competence envelope, and budget governor
-
-Do not assume a router can know task difficulty perfectly before execution.
-
-- [x] Ollama structured planner adapter.
-- [x] JSON-schema/Pydantic validation.
-- [x] Ollama structured artifact generator.
-- [x] deterministic temperature setting.
-- [x] unload model after request by default.
-- [x] prior machine evidence supplied to repair attempts.
-- [ ] first-party provider adapter protocol.
-- [ ] local llama.cpp adapter.
-- [ ] SGLang server adapter.
-- [ ] frontier provider adapters behind capability negotiation.
-- [ ] model/runtime capability registry.
-- [ ] sealed-arena empirical performance table by task class.
-- [ ] hard capability floors for security/concurrency/migrations/public-API changes.
-- [ ] uncertainty score for every route.
-- [ ] cheap-first execution only when confidence and reversibility permit it.
-- [ ] automatic escalation after verification failure or unexpected dependency expansion.
-- [ ] local/offline fallback lane when providers are unavailable.
-- [ ] per-task token, dollar, GPU-time, wall-time, and candidate-count budgets.
-- [ ] global session/project budget governor.
-- [ ] provider health/rate-limit circuit breakers.
-
-**Exit condition:** routing is empirical and conservative, bad initial routing self-corrects through verification/escalation, and cloud/provider failure cannot collapse the system.
-
-## Phase 7 — adaptive Verification Forge
-
-Verification is tiered by measured risk; the full stack is not run blindly on every candidate.
-
-### Level 0 — envelope / syntax
+- [x] Model is proposal generator, not verifier.
+- [x] Deterministic evidence controls current acceptance.
+- [x] Validated Pydantic task/candidate schemas.
+- [x] Validated dependency DAG and cycle rejection.
+- [x] SQLite WAL task/evidence journal.
+- [x] Resumable dependency-aware supervisor.
+- [x] Canonical workspace containment.
+- [x] Structured Ollama planner/generator.
+- [x] Hardened Docker validation boundary.
 - [x] Python AST gate.
-- [x] sandbox command gate.
-- [x] required-gate acceptance policy.
-- [ ] schema/patch parser validation.
+- [x] Bounded evidence-fed repair loop.
+- [x] NVIDIA telemetry primitive.
+- [ ] Schema migration/version table for durable storage.
+- [ ] Content hashes for evidence and produced artifacts.
+- [ ] Immutable accepted-base commit recorded for every mutable candidate.
+- [ ] Append-only decision/provenance record.
+- [ ] Reproducibility fingerprint envelope for model/runtime/prompt/verifier/toolchain configuration.
+- [ ] Epistemic labels for MEASURED / DERIVED / INFERRED / HEURISTIC / UNKNOWN claims where the system emits quantitative assertions.
 
-### Level 1 — fast static checks
-- [ ] Ruff gate.
-- [ ] Mypy/Pyright gate.
-- [ ] compiler/type equivalent gates for other languages.
+**Exit:** existing tested behavior remains usable, but every future Architecture v1 experiment can be reproduced and traced to immutable inputs and evidence.
 
-### Level 2 — targeted behavior
-- [ ] pytest evidence parser.
-- [ ] independent regression-test author stage.
-- [ ] changed-symbol targeted test selection.
+---
 
-### Level 3 — adversarial behavior
-- [ ] Hypothesis/property-test gate.
-- [ ] boundary/counterexample generation.
-- [ ] concurrency-specific checks where applicable.
+## Phase 1 — minimal Architecture v1 contracts + immutable SoftwareWorld + dual arena
 
-### Level 4 — robustness/security
-- [ ] risk-selected mutation testing.
-- [ ] Semgrep gate.
-- [ ] CodeQL/data-flow gate.
-- [ ] dependency vulnerability audit.
-- [ ] exploit-regression tests for security fixes.
+### Minimal contracts
 
-### Level 5 — system behavior
-- [ ] integration/contract-test gate.
-- [ ] migration/data-integrity gate.
-- [ ] performance/resource regression gate.
+- [ ] `TaskContract`
+- [ ] `ArtifactRef`
+- [ ] `EvidenceRecord`
+- [ ] `ProvenanceRecord`
+- [ ] `CapabilityRecord`
+- [ ] `PolicyDecision`
+- [ ] `WorldSnapshotRef`
+- [ ] `ExecutionResult`
 
-### Level 6 — final acceptance
-- [ ] full risk-selected suite.
-- [ ] hidden/adversarial acceptance tests.
-- [ ] artifact-type gate registry for non-code outputs.
+Do not promote Mission/Job/Checkpoint/provider/parser/engine concepts into the minimal core merely for future-proofing.
 
-### Adaptive policy
-- [ ] deterministic risk classifier from touched files, dependency radius, coverage, concurrency, security boundaries, API/state changes, and prior failures.
-- [ ] verification level can only escalate automatically, never silently downgrade after a failure.
-- [ ] cheap candidate screening before expensive mutation/CodeQL/full-integration gates.
-- [ ] verification-cost telemetry feeds routing and candidate-count decisions.
+### Read-only world-model seam
 
-**Exit condition:** "runs without exception" is insufficient, but simple work does not pay the cost of maximum verification unless risk or evidence requires escalation.
+- [ ] Read-oriented `WorldModel` interface.
+- [ ] Immutable `WorldSnapshot` with snapshot hash, source hash, toolchain fingerprint, parent snapshot, and timestamp.
+- [ ] Snapshot compiler creates new state rather than mutating authoritative intelligence.
 
-## Phase 8 — candidate isolation, competition, and rollback
+### SoftwareWorld v0
 
-- [ ] isolated Git worktree per mutable candidate/task group.
-- [ ] atomic accepted-artifact checkpoint.
-- [ ] rejected worktree discard.
-- [ ] rollback to last accepted checkpoint.
-- [ ] provenance manifest attached to commit.
-- [ ] merge conflict classifier and escalation path.
-- [ ] candidate tournament engine from identical accepted base/context.
-- [ ] candidate count chosen from uncertainty and remaining budget, not fixed fan-out.
-- [ ] deterministic winner selection from mandatory gates, hidden tests, regressions, mutation/coverage, API/dependency impact, performance, then patch complexity.
+Start deliberately small:
 
-**Exit condition:** failed candidates cannot contaminate accepted state, and expensive multi-model competition happens only when expected value exceeds cost.
+- [ ] Git source pinned to exact commit/tree.
+- [ ] One language parser/AST path.
+- [ ] Symbol definitions/references.
+- [ ] Import/module graph.
+- [ ] Test-file to source/symbol mapping where deterministically discoverable.
+- [ ] Snapshot reproducibility test.
 
-## Phase 9 — Verified Skill Compiler and compounding intelligence
+Do **not** add SCIP, CodeQL, dynamic coverage, or failure history yet unless their later ablations justify them.
 
-- [ ] fingerprint verified operations by task pattern + AST/context signature + transformation + evidence.
-- [ ] skill registry lifecycle: NEURAL -> REPEATED_VERIFIED -> SHADOW_DETERMINISTIC -> VALIDATED_SKILL -> DETERMINISTIC.
-- [ ] replay against historical examples before promotion.
-- [ ] held-out adversarial validation before promotion.
-- [ ] deterministic skill forms: ast-grep/tree-sitter rewrite, script, template, analyzer, test generator.
-- [ ] automatic invalidation when language/toolchain/project contract changes.
-- [ ] failure-to-skill linkage: known counterexamples become permanent regression guards.
-- [ ] usage statistics and rollback for degraded skills.
+### Minimal dual arena
 
-**Exit condition:** repeated verified work reduces future neural calls and latency without turning unverified model outputs into permanent automation.
+- [ ] Trial recorder.
+- [ ] Stable sealed task set.
+- [ ] Living/project-derived task stream recorder.
+- [ ] Rotating external/unseen task slot.
+- [ ] Trial fingerprints: repo commit, world snapshot, context, model/runtime/config, prompt/tool schema, verifier/policy, result, timing/cost/tokens/human intervention.
+- [ ] Baseline reports for verified pass rate, localization precision/recall, context size, wall time, cost, and human intervention.
 
-## Phase 10 — sealed arena and continuous empirical routing
+**Primary gate:** given a real repository plus known bug/localization tasks with known relevant and irrelevant symbols, SoftwareWorld produces reproducible snapshots and measurable localization precision/recall; the arena can replay the same trial from fingerprints.
 
-- [ ] private task corpus from real repositories plus SWE-smith-style generated tasks.
-- [ ] hidden tests inaccessible to candidate models.
-- [ ] contamination controls and rotating repositories.
-- [ ] same context/tools/time/budget/verifier across competing models.
-- [ ] ablation runs for project graph, cache, skill compiler, router, and verification tiers.
-- [ ] metrics: verified pass@1, hidden-test pass, regressions, time, cost, tokens, GPU time, retries, context size, operator intervention.
-- [ ] champion/challenger promotion rules for models, runtimes, retrieval methods, and verification policies.
-- [ ] no component promoted on vendor/public benchmark alone.
+---
 
-**Exit condition:** "best" is a measured local property of a task class under VPI-CVM's exact harness, not a permanent vendor/model claim.
+## Phase 2 — independent Context Compiler + ground-truth localization experiment
 
-## Phase 11 — durable long-run orchestration
+- [ ] Context Compiler separate from `WorldModel`.
+- [ ] Explicit token/entity budget.
+- [ ] Inclusion scoring trace using measurable proxies rather than claiming calibrated utility.
+- [ ] Initial proxies: task relevance, dependency distance, failing-stack proximity, test association, changed-file proximity, reference strength, historical association when available, token cost.
+- [ ] Record included/excluded entities and reasons.
+- [ ] Raw-repository baseline.
+- [ ] Compiled-context challenger.
+- [ ] Paired arena comparison.
 
-Do not build a bespoke fake-Temporal scheduler.
+Promotion uses a predefined primary metric, practical effect size, uncertainty, and safety/non-regression guardrails. If evidence is inconclusive, gather more trials rather than forcing a verdict.
 
-- [ ] define workflow backend protocol.
-- [ ] implement Temporal adapter.
-- [ ] workflow replay/recovery tests.
-- [ ] bounded retries by fault class.
-- [ ] lifecycle wall-clock budget.
-- [ ] global resource/token/cost budget integration.
-- [ ] pause/resume/cancel controls.
-- [ ] operator escalation queue.
+Candidate additions after the baseline exists:
 
-**Exit condition:** controller process or machine restarts can resume multi-day work from workflow history and persisted project truth.
+- [ ] SCIP challenger — only retain if it improves measured localization/solution outcomes.
+- [ ] dynamic coverage mapping challenger.
+- [ ] CodeQL/data-flow challenger for task classes where deep data flow is relevant.
+- [ ] Git-history/failure-history relationships.
 
-## Phase 12 — richer execution agents
+**Exit:** project intelligence demonstrates measurable localization/context value over simpler retrieval baselines, or the representation is revised before more architecture is layered on it.
 
-Do not rebuild a full coding agent if an existing one satisfies the contract.
+---
 
-- [ ] OpenHands agent-server adapter.
-- [ ] capability negotiation between direct runner and agent backend.
-- [ ] tool permission policy.
-- [ ] per-task clean agent context.
-- [ ] evidence extraction from agent execution.
-- [ ] backend conformance tests.
+## Phase 3 — heterogeneous cognition: local model + frontier challenger
 
-**Exit condition:** VPI-CVM can supervise a mature agent backend without surrendering planning policy, budgets, project truth, or final acceptance authority.
+### Provider/runtime protocol
 
-## Phase 13 — hardware health and scheduling
+- [ ] Narrow provider-neutral model request/result envelope.
+- [ ] Provider/model/runtime/configuration fingerprinting.
+- [ ] Behavioral canary suite for drift detection.
 
-- [x] NVIDIA telemetry probe.
-- [x] real temperature threshold policy primitive.
-- [ ] integrate thermal guard into inference scheduling.
-- [ ] VRAM pressure thresholds.
-- [ ] power/temperature history.
-- [ ] model unload verification telemetry.
-- [ ] CPU/RAM/disk host watchdogs.
-- [ ] adaptive cooldown and backpressure.
-- [ ] runtime auto-benchmarking for llama.cpp/SGLang/vLLM/TensorRT-LLM where applicable.
+### Initial lanes
 
-**Exit condition:** long-run scheduling responds to measured hardware state and runtime performance, not fixed sleeps or static assumptions.
+- [x] Ollama development adapter exists.
+- [ ] Local reference adapter (`llama.cpp` initially).
+- [ ] One frontier challenger adapter (initial provider chosen by current evidence/cost/availability).
+- [ ] Structured-output conformance tests.
+- [ ] Provider health/rate-limit circuit breaker.
+- [ ] Local/offline fallback.
 
-## Phase 14 — observability and operator control
+### Routing baseline
 
-- [ ] structured event stream.
-- [ ] task/evidence/timeline API.
-- [ ] Prometheus/OpenTelemetry exporter.
-- [ ] lightweight dashboard.
-- [ ] manual approve/reject/retry controls.
-- [ ] policy override audit log.
-- [ ] alerts for stuck, unsafe, provider-degraded, or budget-exhausted work.
-- [ ] live cost/latency/model-route/verification-level telemetry.
+- [ ] Deterministic eligibility/capability floors.
+- [ ] No permanent model winner.
+- [ ] Closed-loop escalation after verification failure or discovered dependency/risk expansion.
+- [ ] Sealed-arena model comparison under identical task/context/tool/verifier conditions.
 
-## Phase 15 — production hardening and endurance
+**Exit:** at least one local and one frontier lane can produce verifiable candidates through the same contracts, and their relative strengths are measured rather than assumed.
 
-- [ ] migration tests.
-- [ ] crash/power-loss fault injection.
-- [ ] provider outage/rate-limit fault injection.
-- [ ] stale-cache/invalidation regression corpus.
-- [ ] sandbox breakout regression corpus.
-- [ ] skill-regression rollback tests.
-- [ ] 24h soak test.
-- [ ] 7-day soak test.
-- [ ] 30-day supervised endurance test.
-- [ ] recovery-time and data-loss measurements.
-- [ ] threat-model review.
-- [ ] reproducible release packaging.
+---
 
-**Final acceptance:** VPI-CVM earns long-duration or world-leading claims only after sealed-arena, ablation, endurance, recovery, cost, and failure-mode evidence exists.
+## Phase 4 — correctness verification + Adversarial Verification Fabric
+
+### Correctness ladder
+
+- [x] Python syntax/AST gate exists.
+- [x] Sandbox command exit-status evidence exists.
+- [ ] L0 schema/patch parser validation.
+- [ ] L1 lint/type/compiler checks.
+- [ ] L2 targeted existing tests.
+- [ ] L3 generated regression/property tests.
+- [ ] L4 risk-selected mutation/security checks.
+- [ ] L5 integration/performance/resource checks.
+- [ ] L6 hidden/final acceptance suite.
+
+Verification depth is risk-adaptive. Failure can escalate required verification; it cannot silently downgrade after new risk is discovered.
+
+### Counterexample search
+
+- [ ] Counterexample contract.
+- [ ] Hostile input generator.
+- [ ] Boundary/edge-case generator.
+- [ ] Property-violation search.
+- [ ] Mutation survivor targeting.
+- [ ] Concurrency/race schedule search when applicable.
+- [ ] Security/exploit adversary when applicable.
+- [ ] Deterministic arbiter that proves whether a proposed counterexample violates a contract.
+- [ ] Adversary and generator separation where useful.
+
+Adversarial search is a **counterexample discovery engine**, not an independent truth authority.
+
+**Exit:** counterexample search demonstrably discovers valid failures missed by the baseline verification path on at least one measured task class without replacing deterministic acceptance authority.
+
+---
+
+## Phase 5 — Failure Compiler + reusable counterexample memory
+
+- [ ] Structured `FailureSignature`.
+- [ ] Violated contract/gate.
+- [ ] Affected symbols/entities.
+- [ ] Minimal reproducer/counterexample when available.
+- [ ] Expected vs actual behavior.
+- [ ] Dependency radius estimate.
+- [ ] Environment/toolchain/model/runtime fingerprints.
+- [ ] Prior matching failures.
+- [ ] Prior successful repairs.
+- [ ] Link failure signatures to regression fixtures and project/world snapshots.
+- [ ] Feed signatures to repair/context/routing without dumping raw logs unnecessarily.
+
+**Exit:** paired arena trials show the Failure Compiler improves repair success, root-cause localization, or time-to-verified-repair over raw-log feedback without hiding critical evidence.
+
+---
+
+## Phase 6 — capability routing + Realized Value Ledger
+
+### Realized value recorder
+
+Record before optimizing:
+
+- [ ] verified task success/failure.
+- [ ] dollars/API cost.
+- [ ] GPU/compute consumption.
+- [ ] wall-clock time.
+- [ ] human intervention/time.
+- [ ] future reuse actually observed.
+- [ ] recurrence of known failures.
+- [ ] capability gained/lost/quarantined.
+
+### Forecast value
+
+- [ ] Forecast records separated from realized records.
+- [ ] Assumptions attached to every forecast.
+- [ ] Calibration status attached to forecast models.
+- [ ] No false-precision NPV claims from uncalibrated estimates.
+
+### Capability router
+
+- [ ] Capability history by task class and fingerprinted lane.
+- [ ] Route on empirical competence + risk + reversibility + current budget.
+- [ ] Use expected value only after realized history is sufficient to calibrate it.
+- [ ] Escalate when observed evidence invalidates the initial route.
+
+**Exit:** VPI-CVM can explain a route in terms of measured capability, risk, resource budget, and realized history rather than model prestige or simplistic $/token minimization.
+
+---
+
+## Phase 7 — Verified Skill Compiler + Living Benchmark generator
+
+### Skill compiler
+
+- [ ] Fingerprint repeated verified operations.
+- [ ] `NEURAL -> REPEATED_VERIFIED -> SHADOW_DETERMINISTIC -> VALIDATED_SKILL -> DETERMINISTIC` lifecycle.
+- [ ] Historical replay.
+- [ ] Sealed/rotating holdout replay.
+- [ ] Adversarial replay using known counterexamples.
+- [ ] Toolchain/project-contract invalidation.
+- [ ] Health checks and regression sampling.
+- [ ] Rollback/quarantine.
+
+### Living benchmark
+
+- [ ] Generate bounded synthetic tasks from current project graph/world snapshots.
+- [ ] Generate changed-symbol regression probes.
+- [ ] Generate test-gap and dependency-impact probes.
+- [ ] Generate adversarial practice tasks where a deterministic fitness function exists.
+- [ ] Background budgets and cancellation.
+- [ ] No mutation of accepted state from background practice.
+- [ ] Living-task provenance label prevents synthetic tasks from independently promoting champions.
+
+**Exit:** repeated verified work produces at least one shadowed deterministic capability whose promotion preserves quality/correctness under historical and sealed replay, while the Living Arena detects at least one real regression/blind spot without becoming its own judge.
+
+---
+
+## Phase 8 — human intent/value state + goal conformance + quality calibration
+
+### Intent/value contract
+
+- [ ] Explicit objective and non-goals.
+- [ ] Mechanical hard constraints.
+- [ ] Interpretive preferences/taste criteria.
+- [ ] Reversible vs irreversible decisions.
+- [ ] Examples of accepted/rejected outcomes.
+- [ ] Unresolved ambiguities and authority boundaries.
+- [ ] Human override as provenance event.
+
+### Goal conformance
+
+- [ ] Mechanical constraints produce hard PASS/FAIL only where deterministically checkable.
+- [ ] Interpretive constraints produce evidence-backed assessment, not fake binary truth.
+
+### Quality assessment
+
+- [ ] Advisory `QualityAssessment` interface.
+- [ ] Calibration status: UNCALIBRATED / WEAK / CALIBRATED.
+- [ ] Evidence/conflict reporting.
+- [ ] Human review/variant-comparison recommendation.
+- [ ] Human-rating calibration loop.
+- [ ] No confidence intervals or numeric probability precision until calibration supports them.
+
+**Exit:** VPI-CVM can preserve and enforce human intent without conflating subjective taste with machine-defensible correctness.
+
+---
+
+## Phase 9 — full SoftwareWorld lifecycle: intent -> observe
+
+Lifecycle stages:
+
+1. **Design** — resolve intent/constraints and define acceptance evidence.
+2. **Plan** — deterministic task/dependency decomposition with impact analysis.
+3. **Build** — context-compiled neural/deterministic leaf execution in isolated candidate workspaces.
+4. **Test** — targeted and generated behavioral evidence.
+5. **Verify** — correctness, mechanical goal conformance, adversarial counterexamples, advisory quality where applicable.
+6. **Publish** — immutable artifact promotion/deployment with rollback plan.
+7. **Observe** — ingest runtime telemetry, incidents, feedback, and environment data back into project intelligence.
+
+Required infrastructure:
+
+- [ ] Isolated Git worktree per candidate/task group.
+- [ ] Atomic accepted checkpoint and rejected-worktree discard.
+- [ ] Rollback to last accepted checkpoint.
+- [ ] SWE-ReX or equivalent execution interface.
+- [ ] gVisor/runsc default hardened backend where compatible.
+- [ ] Firecracker/microVM high-assurance tier where infrastructure permits.
+- [ ] Task-scoped network allowlists and short-lived secrets.
+- [ ] Durable long-run workflow backend protocol.
+- [ ] Temporal adapter or evidence-backed equivalent rather than a bespoke fake scheduler.
+- [ ] Typed world/production telemetry ingestion.
+- [ ] Survival modes: FULL / DEGRADED / SAFE_LOCAL / RECOVERY / READ_ONLY.
+- [ ] Operator approval/escalation only where policy/authority requires it.
+
+**Exit:** one real software project can move from intent through published/observed artifact with reproducible evidence, rollback, and post-deployment feedback. This is the first full-domain acceptance milestone.
+
+---
+
+## Phase 10 — second domain + cross-domain transfer research
+
+Do not build a Meta-World transfer engine before domain pressure exists.
+
+### Second domain
+
+- [ ] Select GameWorld or another domain based on actual project goals.
+- [ ] Implement its own ontology/world model rather than renaming software symbols.
+- [ ] Define domain-specific correctness signals.
+- [ ] Define mechanical goal-conformance checks.
+- [ ] Define advisory quality signals and human calibration path.
+- [ ] Define domain-specific adversaries/simulators only where their outputs can be evaluated defensibly.
+
+### Meta-World research seam
+
+- [ ] Mine structural pattern **candidates** from at least two mature domains.
+- [ ] Record source-domain evidence and target-domain assumptions.
+- [ ] Transfer only in shadow mode.
+- [ ] Validate under target-domain verification and arena.
+- [ ] Detect negative transfer.
+- [ ] Promote reusable cross-domain abstractions only after repeated target-domain evidence.
+
+**Exit:** cross-domain transfer is demonstrated empirically, or the candidate abstraction remains research. Source-domain success never automatically confers target-domain competence.
+
+---
+
+## Ongoing platform hardening
+
+These workstreams span phases and remain mandatory before strong production claims:
+
+- storage schema migrations and crash/power-loss tests;
+- stale-cache/snapshot regression corpus;
+- provider outage/rate-limit/drift fault injection;
+- sandbox escape/security regression corpus;
+- model behavioral canaries and quarantine;
+- skill-regression rollback tests;
+- OpenTelemetry/structured event stream;
+- cost/value/capability dashboards;
+- 24-hour, 7-day, and eventually longer supervised endurance tests;
+- reproducible release packaging;
+- threat-model review.
+
+## Final acceptance doctrine
+
+VPI-CVM does not earn claims such as "autonomous," "self-improving," "economically rational," "cross-domain," or "world-leading" from architecture diagrams.
+
+Those claims require reproducible evidence from the appropriate arena, holdout, real-world observation, ablation, recovery, and failure-mode tests.
+
+The objective is not benchmark victory or local-model purity. It is:
+
+> **maximize verified, goal-correct, reusable capability accumulated per unit of human time, machine compute, and experience.**
